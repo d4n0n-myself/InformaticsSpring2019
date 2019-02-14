@@ -3,29 +3,39 @@ using System.Linq;
 
 namespace WebApplication5
 {
-    public class Repository
-    {
-        public Repository(DataBase context)
-        {
-            this.context = context;
-        }
+	public class Repository
+	{
+		private readonly DataBase _context;
 
-        public Repository()
-        {
-            context = new DataBase();
-        }
+		public Repository(DataBase context)
+		{
+			_context = context;
+		}
 
-        private DataBase context;
+		public Repository()
+		{
+			_context = new DataBase();
+		}
 
-        public void AddNote(string Header, string Body) //string FileLink)
-        {
-            var context = new DataBase();
-            context.Notes.Add(new Note(Header, Body));
-            context.SaveChanges();
-        }
+		public void AddNote(string header, string body, string fileLink)
+		{
+			_context.Notes.Add(new Note(header, body, fileLink));
+			_context.SaveChanges();
+		}
 
-        public Note GetNoteByHeader(string Header) => context.Notes.First(n => n.Header.Equals(Header));
-        public List<string> GetHeaders() => context.Notes.Select(n => n.Header).ToList();
-        public bool ContainNote(string Header) => context.Notes.Any(n => n.Header.Equals(Header));
-    }
+		public Note GetNoteByHeader(string header)
+		{
+			return _context.Notes.First(n => n.Header.Equals(header));
+		}
+
+		public List<string> GetHeaders()
+		{
+			return _context.Notes.Select(n => n.Header).ToList();
+		}
+
+		public bool ContainNote(string header)
+		{
+			return _context.Notes.Any(n => n.Header.Equals(header));
+		}
+	}
 }

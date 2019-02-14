@@ -4,17 +4,30 @@ using Microsoft.AspNetCore.Mvc;
 namespace WebApplication5.Controllers
 {
 	/// <summary>
-	/// MVC используется как реализация IDisposable
+	///     MVC используется как реализация IDisposable
 	/// </summary>
-	public class ValuesController : Controller 
+	public class ValuesController : Controller
 	{
-		static Repository repo = new Repository();
-		public void AddNote(string title, string text) => repo.AddNote(title, text);
+		private static readonly Repository repo = new Repository();
 
-		public List<string> GetNotes() => repo.GetHeaders();
+		public void AddNote(string title, string text, string fileLink)
+		{
+			repo.AddNote(title, text, fileLink);
+		}
 
-		public bool ContainNote(string Header) => repo.ContainNote(Header);
+		public List<string> GetNotes()
+		{
+			return repo.GetHeaders();
+		}
 
-		public Note GetNote(string Header) => repo.GetNoteByHeader(Header);
+		public bool ContainNote(string Header)
+		{
+			return repo.ContainNote(Header);
+		}
+
+		public Note GetNote(string Header)
+		{
+			return repo.GetNoteByHeader(Header);
+		}
 	}
 }
