@@ -19,18 +19,19 @@
             <a href="Home" style="color: white;padding: 20px; ">Notes</a>
           </td>
           <td>
-            <a href="Files" style="color: white;padding: 20px;">Add File</a>
-          </td>
-          <td>
             <a href="Notes" style="color: white;padding: 20px;">Add Note</a>
           </td>
         </tr>
       </table>
     </div>
-    <form style="padding-left: 30px; padding-top: 30px;" action="/Add" method="get" id="f1">
+    <form style="padding-left: 30px; padding-top: 30px;" 
+          action="/Add" 
+          method="post"
+          enctype="multipart/form-data"
+          id="f1">
       <input type="text" name="title" value="title" />
       <input type="text" name="text" value="text" />
-      
+      <input type="file" name="file" value="file" />
       <input type="submit" name="button" formaction="/Add" />
     </form>
   </body>

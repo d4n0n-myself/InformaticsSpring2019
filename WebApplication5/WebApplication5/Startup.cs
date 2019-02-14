@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Data;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -38,20 +39,23 @@ namespace WebApplication5
 			}
 
 			#region Mappers
-			// Note Adder
 			app.Map("/Add", builder => builder.Run(async context =>
 			{
-				var query = context.Request.Query;
-				var text = query["text"];
-				var title = query["title"];
-
+				var form = context.Request.Form;
+				var text = form["text"];
+				var title = form["title"];
+				var file = context.Request.Form.Files["file"];
+				var filePath = $"files/{file.FileName}";
+				
+				using (var fileStream = new FileStream(filePath, FileMode.Create))
+					file.CopyTo(fileStream);
+				
 				using (var controller = new ValuesController())
-					controller.AddNote(title, text);
+					controller.AddNote(title, text, filePath);
 
 				await LoadPageInResponse(context, "confirmation");
 			}));
 			
-//			 Home Page
 			app.Map("/Home", builder => builder.Run(async context =>
 			{
 				var htmlPage = File.ReadAllText("Views/Home.html");
@@ -62,30 +66,34 @@ namespace WebApplication5
 				}
 			}));
 			
-			// Note Reader
 			app.MapWhen(context => context.Request.Path.StartsWithSegments(new PathString("/texts")), 
 				builder => builder.Run(async httpContext =>
 				{
 					var title = httpContext.Request.Query["name"];
-					var controller = new ValuesController();
-					var text = controller.ContainNote(title) ? controller.GetNote(title).Body : "";
-					await httpContext.Response.WriteAsync(text);
+					using (var controller = new ValuesController())
+					{
+						if (!controller.ContainNote(title))
+							throw new DataException("No such note");
+						
+						var note = controller.GetNote(title);
+						
+						await httpContext.Response.WriteAsync($@"<a href=""showfile/{note.FileLink}"">File</a>");
+						await httpContext.Response.WriteAsync("\r\n");
+						await httpContext.Response.WriteAsync(note.Body);
+					}
 				}) );
 
-			// File Saver
-			app.Map("/Files", builder => builder.Run(async context =>
-			{	
-				await LoadPageInResponse(context, "fileLoad");
-			}));
+			app.MapWhen(context => context.Request.Path.StartsWithSegments(new PathString("/showfile")),
+				builder => builder.Run(async context =>
+				{
+					var filePath = $"files/{context.Request.Path.ToUriComponent().Split('/').Last()}";
+					
+						if (File.Exists(filePath))
+								using (var file = File.Open(filePath, FileMode.Open))
+									file.CopyTo(context.Response.Body);
+						
+				}));
 
-			app.Map("/fileupload", builder => builder.Run(async context =>
-			{
-					var file = context.Request.Form.Files["file"];
-					using (var fileStream = new FileStream($"files/{file.FileName}", FileMode.Create))
-						file.CopyTo(fileStream);	
-					await LoadPageInResponse(context, "confirmation");
-				
-			}));
 			
 			app.Map("/Notes", builder => builder.Run(async context =>
 			{
@@ -105,26 +113,26 @@ namespace WebApplication5
 		{
 			var page = File.ReadAllText($"Views/{pageName}.html");
 			using (var streamWriter = new StreamWriter(context.Response.Body))
-			{
 				return streamWriter.WriteAsync(page);
-			}
 		}
 		
 		private static string GetFiles()
 		{
-			//var directoryInfo = new DirectoryInfo("texts");
-			//var files = directoryInfo.GetFiles();
-			var controller = new ValuesController();
-			var files = controller.GetNotes();
-				
-			var sb = new StringBuilder();
-			sb.Append(@"<ul style=""padding-left: 50px; padding-top: 15px;"">");
-			foreach (var file in files)
+			using (var controller = new ValuesController())
 			{
-				sb.Append($@"<li><a href=""texts?name={file}"">{file}</a></li>");
+				var files = controller.GetNotes();
+
+				var sb = new StringBuilder();
+				sb.Append(@"<ul style=""padding-left: 50px; padding-top: 15px;"">");
+				foreach (var file in files)
+				{
+					sb.Append($@"<li><a href=""texts?name={file}"">{file}</a></li>");
+				}
+
+				sb.Append("</ul>");
+				return sb.ToString();
 			}
-			sb.Append("</ul>");
-			return sb.ToString();
 		}
+		
 	}
 }
