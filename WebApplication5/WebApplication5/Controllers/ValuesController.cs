@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace WebApplication5.Controllers
 {
@@ -8,13 +7,9 @@ namespace WebApplication5.Controllers
 	/// </summary>
 	public class ValuesController : Controller 
 	{
-		static Repository repo = new Repository();
-		public void AddNote(string title, string text) => repo.AddNote(title, text);
-
-		public List<string> GetNotes() => repo.GetHeaders();
-
-		public bool ContainNote(string Header) => repo.ContainNote(Header);
-
-		public Note GetNote(string Header) => repo.GetNoteByHeader(Header);
+		public void AddNote(string title, string text)
+		{ 
+			System.IO.File.WriteAllText($"texts/{title}.txt", text);
+		}
 	}
 }

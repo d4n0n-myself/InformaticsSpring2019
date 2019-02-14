@@ -67,8 +67,7 @@ namespace WebApplication5
 				builder => builder.Run(async httpContext =>
 				{
 					var title = httpContext.Request.Query["name"];
-					var controller = new ValuesController();
-					var text = controller.ContainNote(title) ? controller.GetNote(title).Body : "";
+					var text = File.Exists("texts/" + title + ".txt") ? File.ReadAllText("texts/" + title + ".txt") : "";
 					await httpContext.Response.WriteAsync(text);
 				}) );
 
@@ -112,16 +111,15 @@ namespace WebApplication5
 		
 		private static string GetFiles()
 		{
-			//var directoryInfo = new DirectoryInfo("texts");
-			//var files = directoryInfo.GetFiles();
-			var controller = new ValuesController();
-			var files = controller.GetNotes();
-				
+			var directoryInfo = new DirectoryInfo("texts");
+			var files = directoryInfo.GetFiles();
+
 			var sb = new StringBuilder();
 			sb.Append(@"<ul style=""padding-left: 50px; padding-top: 15px;"">");
 			foreach (var file in files)
 			{
-				sb.Append($@"<li><a href=""texts?name={file}"">{file}</a></li>");
+				var replace = file.Name.Replace(".txt","");
+				sb.Append($@"<li><a href=""texts?name={replace}"">{replace}</a></li>");
 			}
 			sb.Append("</ul>");
 			return sb.ToString();
