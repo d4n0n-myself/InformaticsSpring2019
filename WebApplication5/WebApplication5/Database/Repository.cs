@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace WebApplication5
+namespace WebApplication5.Database
 {
 	public class Repository
 	{
