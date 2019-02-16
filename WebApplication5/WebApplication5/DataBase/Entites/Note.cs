@@ -4,9 +4,10 @@ namespace WebApplication5
 {
 	public class Note
 	{
-		public Note(string header, string body, string fileLink)
+		public Note(string header, string body, string fileLink, Guid userId)
 		{
 			Id = Guid.NewGuid();
+			UserId = userId;
 			Header = header;
 			Body = body;
 			FileLink = fileLink;
@@ -16,6 +17,7 @@ namespace WebApplication5
 		{
 		}
 
+		public Guid UserId { get; set; }
 		public Guid Id { get; set; }
 		public string Header { get; set; }
 		public string Body { get; set; }

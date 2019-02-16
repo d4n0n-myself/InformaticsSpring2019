@@ -16,5 +16,6 @@ namespace WebApplication5
         }
 
         public DbSet<Note> Notes { get; set; }
+        public DbSet<User> Users { get; set; }
     }
 }

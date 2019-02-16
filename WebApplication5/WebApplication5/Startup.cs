@@ -17,6 +17,7 @@ namespace WebApplication5
 {
     public class Startup
     {
+        private static Guid _userId = Guid.Empty;
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -44,15 +45,22 @@ namespace WebApplication5
             #region Mappers
 
             app.Use((context, next) =>
-            {   
-                if (!context.Request.Cookies.ContainsKey("login") && !context.Request.Path.StartsWithSegments(new PathString("/authPage")))
+            {
+                var controller = new ValuesController();
+                var login = context.Request.Cookies["login"];
+                if (!context.Request.Cookies.ContainsKey("login")
+                    && !context.Request.Path.StartsWithSegments(new PathString("/authPage")))
                 {
                     context.Response.Redirect("/authPage");
                 }
-                if(context.Request.Cookies.ContainsKey("login") && context.Request.Path.StartsWithSegments(new PathString("/authPage")))
+
+                if (context.Request.Cookies.ContainsKey("login") 
+                    && controller.ContainUser(login)
+                    && context.Request.Path.StartsWithSegments(new PathString("/authPage")))
                 {
                     context.Response.Redirect("/Home");
                 }
+
                 return next.Invoke();
             });
 
@@ -61,13 +69,13 @@ namespace WebApplication5
                 var form = context.Request.Form;
                 var login = form["login"];
                 var password = form["password"];
-                if (login == "admin" && password == "admin")
-                {
-                    context.Response.Cookies.Append("login", "ok");
-                }
+                var controller = new ValuesController();
+                controller.AddUser(login, password);
+                _userId = controller.GetUser(login).Id;
+                context.Response.Cookies.Append("login", login);
                 context.Response.Redirect("/Home");
             }));
-            
+
             app.Map("/Add", builder => builder.Run(async context =>
             {
                 var form = context.Request.Form;
@@ -75,12 +83,13 @@ namespace WebApplication5
                 var title = form["title"];
                 var file = context.Request.Form.Files["file"];
                 var filePath = $"files/{file.FileName}";
+                var login = context.Request.Cookies["login"];
 
                 using (var fileStream = new FileStream(filePath, FileMode.Create))
                     file.CopyTo(fileStream);
 
                 using (var controller = new ValuesController())
-                    controller.AddNote(title, text, filePath);
+                    controller.AddNote(title, text, filePath, controller.GetUser(login).Id);
 
                 await LoadPageInResponse(context, "confirmation");
             }));
@@ -155,7 +164,7 @@ namespace WebApplication5
         {
             using (var controller = new ValuesController())
             {
-                var files = controller.GetNotes();
+                var files = controller.GetNotes(_userId);
 
                 var sb = new StringBuilder();
                 sb.Append(@"<ul style=""padding-left: 50px; padding-top: 15px;"">");
