@@ -15,7 +15,8 @@ namespace WebApplication5.Controllers
 		{
 			repo.AddNote(title, text, fileLink);
 		}
-
+		
+		[ResponseCache(Duration = 30)]
 		public List<string> GetNotes()
 		{
 			return repo.GetHeaders();
