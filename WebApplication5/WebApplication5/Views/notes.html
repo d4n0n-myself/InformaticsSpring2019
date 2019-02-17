@@ -16,7 +16,7 @@
             d4n0n_myself
           </td>
           <td>
-            <a href="Home" style="color: white;padding: 20px; ">Notes</a>
+            <a href="Index" style="color: white;padding: 20px; ">Notes</a>
           </td>
           <td>
             <a href="Notes" style="color: white;padding: 20px;">Add Note</a>
@@ -25,14 +25,13 @@
       </table>
     </div>
     <form style="padding-left: 30px; padding-top: 30px;" 
-          action="/Add" 
           method="post"
           enctype="multipart/form-data"
           id="f1">
       <input type="text" name="title" value="title" />
       <input type="text" name="text" value="text" />
       <input type="file" name="file" value="file" />
-      <input type="submit" name="button" formaction="/Add" />
+      <input type="submit" name="button" formaction="/Home/Add" />
     </form>
   </body>
 </html>

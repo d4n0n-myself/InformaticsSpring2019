@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
+using WebApplication5.Database;
 
 namespace WebApplication5.Controllers
 {
@@ -15,12 +16,13 @@ namespace WebApplication5.Controllers
 		{
 			repo.AddNote(title, text, fileLink, userId);
 		}
-
+    
 		public void AddUser(string login, string password)
 		{
 			repo.AddUser(login, password);
 		}
-
+    
+    [ResponseCache(Duration = 30)]
 		public List<string> GetNotes(Guid UserId)
 		{
 			return repo.GetHeaders(UserId);
