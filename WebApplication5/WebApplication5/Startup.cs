@@ -10,7 +10,6 @@ namespace WebApplication5
 {
     public class Startup
     {
-        private static Guid _userId = Guid.Empty;
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -23,7 +22,7 @@ namespace WebApplication5
         {
             services.AddRouting();
             services.AddMvc(options => options.EnableEndpointRouting = false)
-                    .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -43,15 +42,15 @@ namespace WebApplication5
             app.UseCookiePolicy();
 
             app.UseMiddleware<AuthentificationMiddleware>();
-            
+
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
                 routes.MapRoute(
-                    "EmptyDefault", 
-                    "", 
+                    "EmptyDefault",
+                    "",
                     new {controller = "Home", action = "Index"}
                 );
                 routes.Routes.Add(new FileRouter());

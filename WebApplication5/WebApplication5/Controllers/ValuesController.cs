@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using WebApplication5.Database;
+using WebApplication5.Database.Entites;
 
 namespace WebApplication5.Controllers
 {
@@ -10,42 +11,22 @@ namespace WebApplication5.Controllers
 	/// </summary>
 	public class ValuesController : Controller
 	{
-		private static readonly Repository repo = new Repository();
-
 		public void AddNote(string title, string text, string fileLink, Guid userId)
 		{
-			repo.AddNote(title, text, fileLink, userId);
-		}
-    
-		public void AddUser(string login, string password)
-		{
-			repo.AddUser(login, password);
-		}
-    
-    [ResponseCache(Duration = 30)]
-		public List<string> GetNotes(Guid UserId)
-		{
-			return repo.GetHeaders(UserId);
+			Repo.AddNote(title, text, fileLink, userId);
 		}
 
-		public bool ContainNote(string Header)
+		//[ResponseCache(Duration = 30)]
+		public List<string> GetNotes()
 		{
-			return repo.ContainNote(Header);
+			///var cookie = Guid.Parse(Request.Cookies["userId"]);
+			return Repo.GetHeaders(Guid.NewGuid());
 		}
 
-		public bool ContainUser(string Login)
-		{
-			return repo.ContainUser(Login);
-		}
-		
-		public Note GetNote(string Header)
-		{
-			return repo.GetNoteByHeader(Header);
-		}
+		public bool ContainNote(string header) => Repo.ContainNote(header);
 
-		public User GetUser(string login)
-		{
-			return repo.GetUserByLogin(login);
-		}
+		public Note GetNote(string header) => Repo.GetNoteByHeader(header);
+
+		private static readonly NoteRepository Repo = new NoteRepository();
 	}
 }

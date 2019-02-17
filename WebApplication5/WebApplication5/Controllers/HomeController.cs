@@ -1,20 +1,19 @@
+using System;
 using System.IO;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using WebApplication5.Database;
 
 namespace WebApplication5.Controllers
 {
 	[ResponseCache(Duration = 90)]
 	public class HomeController : Controller
 	{
-
 		public void Add()
 		{
 			var form = Request.Form;
 			var text = form["text"];
 			var title = form["title"];
-			var file = Request.Form.Files["file"];
+			var file = form.Files["file"];
+			//var userGuid = Guid.Parse(Request.Cookies["userId"]);
 
 			if (file != null)
 			{
@@ -23,13 +22,12 @@ namespace WebApplication5.Controllers
 				using (var fileStream = new FileStream(filePath, FileMode.Create))
 					file.CopyTo(fileStream);
 
-
 				using (var controller = new ValuesController())
-					controller.AddNote(title, text, filePath);
+					controller.AddNote(title, text, filePath, Guid.NewGuid());//userGuid);
 			}
 			else
 				using (var controller = new ValuesController())
-					controller.AddNote(title, text, null);
+					controller.AddNote(title, text, null, Guid.NewGuid()); //userGuid);
 
 			Helpers.LoadPageInResponse(HttpContext, "confirmation");
 		}

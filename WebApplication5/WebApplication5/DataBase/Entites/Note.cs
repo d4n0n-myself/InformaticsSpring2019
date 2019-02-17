@@ -1,6 +1,6 @@
 using System;
 
-namespace WebApplication5
+namespace WebApplication5.Database.Entites
 {
 	public class Note
 	{

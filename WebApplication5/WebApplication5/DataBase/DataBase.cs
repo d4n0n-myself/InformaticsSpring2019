@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
+using WebApplication5.Database.Entites;
 
-namespace WebApplication5
+namespace WebApplication5.Database
 {
     public class DataBase: DbContext
     {
