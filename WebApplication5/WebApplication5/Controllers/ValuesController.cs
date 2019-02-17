@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using WebApplication5.Database;
 
@@ -11,15 +12,20 @@ namespace WebApplication5.Controllers
 	{
 		private static readonly Repository repo = new Repository();
 
-		public void AddNote(string title, string text, string fileLink)
+		public void AddNote(string title, string text, string fileLink, Guid userId)
 		{
-			repo.AddNote(title, text, fileLink);
+			repo.AddNote(title, text, fileLink, userId);
 		}
-		
-		[ResponseCache(Duration = 30)]
-		public List<string> GetNotes()
+    
+		public void AddUser(string login, string password)
 		{
-			return repo.GetHeaders();
+			repo.AddUser(login, password);
+		}
+    
+    [ResponseCache(Duration = 30)]
+		public List<string> GetNotes(Guid UserId)
+		{
+			return repo.GetHeaders(UserId);
 		}
 
 		public bool ContainNote(string Header)
@@ -27,9 +33,19 @@ namespace WebApplication5.Controllers
 			return repo.ContainNote(Header);
 		}
 
+		public bool ContainUser(string Login)
+		{
+			return repo.ContainUser(Login);
+		}
+		
 		public Note GetNote(string Header)
 		{
 			return repo.GetNoteByHeader(Header);
+		}
+
+		public User GetUser(string login)
+		{
+			return repo.GetUserByLogin(login);
 		}
 	}
 }

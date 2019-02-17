@@ -10,6 +10,7 @@ namespace WebApplication5
 {
     public class Startup
     {
+        private static Guid _userId = Guid.Empty;
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
