@@ -4,13 +4,16 @@ using WebApplication5.Database.Entites;
 
 namespace WebApplication5.Controllers
 {
+	/// /// <summary>
+	///	This class collects information about users.
+	/// </summary>
 	public class UsersController : Controller
 	{
-		public void AddUser(string login, string password) => Repo.AddUser(login, password);
+		public void Add(string login, string password) => Repo.AddUser(login, password);
 
-		public bool ContainUser(string login) => Repo.ContainUser(login);
+		public bool Contains(string login) => Repo.ContainUser(login);
 
-		public User GetUser(string login) => Repo.GetUserByLogin(login);
+		public User Get(string login) => Repo.GetUserByLogin(login);
 
 		private static readonly UserRepository Repo = new UserRepository();
 	}

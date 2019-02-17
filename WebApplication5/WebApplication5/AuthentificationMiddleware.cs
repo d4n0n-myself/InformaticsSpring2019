@@ -3,6 +3,9 @@ using Microsoft.AspNetCore.Http;
 
 namespace WebApplication5
 {
+	/// <summary>
+	/// Used to authentificate users in system.
+	/// </summary>
 	public class AuthentificationMiddleware
 	{
 		public AuthentificationMiddleware(RequestDelegate next)

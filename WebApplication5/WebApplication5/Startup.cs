@@ -40,7 +40,7 @@ namespace WebApplication5
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
-
+            
             app.UseMiddleware<AuthentificationMiddleware>();
 
             app.UseMvc(routes =>

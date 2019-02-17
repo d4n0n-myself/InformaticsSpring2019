@@ -6,7 +6,10 @@ using WebApplication5.Controllers;
 
 namespace WebApplication5
 {
-	public class Helpers
+	/// <summary>
+	/// This class provides intermediate support.
+	/// </summary>
+	internal class Helpers
 	{
 		internal static Task LoadPageInResponse(HttpContext context, string pageName)
 		{
@@ -17,16 +20,14 @@ namespace WebApplication5
 
 		internal static string GetFiles()
 		{
-			using (var controller = new ValuesController())
+			using (var controller = new NotesController())
 			{
-				var files = controller.GetNotes();
+				var files = controller.Get();
 
 				var sb = new StringBuilder();
 				sb.Append(@"<ul style=""padding-left: 50px; padding-top: 15px;"">");
 				foreach (var file in files)
-				{
 					sb.Append($@"<li><a href=""texts?name={file}"">{file}</a></li>");
-				}
 
 				sb.Append("</ul>");
 				return sb.ToString();
