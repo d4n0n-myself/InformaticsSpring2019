@@ -41,7 +41,7 @@ namespace WebApplication5
 			return _context.Notes.Where(n => n.UserId == UserId).Select(n => n.Header).ToList();
 		}
 
-		public User GetUserByLogin(string login) => _context.Users.Find(login);
+		public User GetUserByLogin(string login) => _context.Users.First(u => u.Login == login);
 
 		public bool ContainNote(string header)
 		{
