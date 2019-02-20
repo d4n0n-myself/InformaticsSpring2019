@@ -13,6 +13,8 @@ namespace WebApplication5.Controllers
 
 		public bool Contains(string login) => Repo.ContainUser(login);
 
+		public bool Check(string login, string password) => Repo.CheckPassword(login, password);
+
 		public User Get(string login) => Repo.GetUserByLogin(login);
 
 		private static readonly UserRepository Repo = new UserRepository();

@@ -25,6 +25,8 @@ namespace WebApplication5.Database
 		public bool ContainUser(string login) => _context.Users.Any(u => u.Login.Equals(login));
 
 		public User GetUserByLogin(string login) => _context.Users.First(u => u.Login == login);
+		
+		public bool CheckPassword(string login, string password) => _context.Users.First(u => u.Login == login).Password.Equals(password);
 
 		private readonly DataBase _context;
 	}

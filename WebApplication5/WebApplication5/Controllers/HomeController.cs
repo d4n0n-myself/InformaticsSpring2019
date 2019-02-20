@@ -25,10 +25,17 @@ namespace WebApplication5.Controllers
 
 		public void Check()
 		{
+			var controller = new UsersController();
 			var form = Request.Form;
 			var login = form["login"];
 			var password = form["password"];
-			if (login == "admin" && password == "admin")
+			if (!controller.Contains(login))
+			{
+				controller.Add(login, password);
+				Response.Cookies.Append("login", "ok");
+				Response.Cookies.Append("userId", login);
+			}
+			else if (controller.Contains(login) && controller.Check(login, password))//(login == "admin" && password == "admin")
 			{
 				Response.Cookies.Append("login", "ok");
 				Response.Cookies.Append("userId", login);

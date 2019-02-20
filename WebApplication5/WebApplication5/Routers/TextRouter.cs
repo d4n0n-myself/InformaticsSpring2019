@@ -13,12 +13,12 @@ namespace WebApplication5.Routers
 			var httpContext = context.HttpContext;
 			if (!context.HttpContext.Request.Path.Value.Contains("texts")) return Task.CompletedTask;
 			var title = httpContext.Request.Query["name"];
-			using (var controller = new ValuesController())
+			using (var controller = new NotesController())
 			{
-				if (!controller.ContainNote(title))
+				if (!controller.Contains(title))
 					throw new DataException("No such note");
 
-				var note = controller.GetNote(title);
+				var note = controller.Get(title);
 
 				if (note.FileLink != null)
 					httpContext.Response.WriteAsync($@"<a href=""showfile/{note.FileLink}"">File</a>");

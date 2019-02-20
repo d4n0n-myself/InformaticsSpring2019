@@ -36,8 +36,15 @@ namespace WebApplication5.Controllers
 		[ResponseCache(Duration = 30)]
 		public List<string> Get()
 		{
-			var userId = Guid.Parse(Request.Cookies["userId"]);
-			return Repo.GetHeaders(userId);
+			try
+			{
+				var userId = Guid.Parse(Request.Cookies["userId"]);
+				return Repo.GetHeaders(userId);
+			}
+			catch 
+			{
+				return new List<string>();
+			}
 		}
 
 		public bool Contains(string header) => Repo.ContainNote(header);
