@@ -4,10 +4,10 @@ namespace WebApplication5.Database.Entites
 {
 	public class Note
 	{
-		public Note(string header, string body, string fileLink, Guid userId)
+		public Note(string header, string body, string fileLink, string login)
 		{
 			Id = Guid.NewGuid();
-			UserId = userId;
+			UserLogin = login;
 			Header = header;
 			Body = body;
 			FileLink = fileLink;
@@ -17,7 +17,7 @@ namespace WebApplication5.Database.Entites
 		{
 		}
 
-		public Guid UserId { get; set; }
+		public string UserLogin { get; set; }
 		public Guid Id { get; set; }
 		public string Header { get; set; }
 		public string Body { get; set; }

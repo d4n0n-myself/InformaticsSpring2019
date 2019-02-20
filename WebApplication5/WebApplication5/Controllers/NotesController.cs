@@ -48,28 +48,14 @@ namespace WebApplication5.Controllers
 		[ResponseCache(Duration = 30)]
 		public List<string> Get(HttpContext context)
 		{
-			//TODO
-//			Guid userId;
-//			try
-//			{
-//				userId = Guid.Parse(context.Request.Cookies["userId"]);
-//				
-//			}
-//			catch 
-//			{
-//				//context.Response.Redirect("/Home/Authentificate");
-//				return new List<string>();
-//			}
-
 			try
 			{
-				//TODO
-				return Repo.GetHeaders(null);
+				var login = context.Request.Cookies["login"];
+				return Repo.GetHeaders(login);
 			}
 			catch (Exception e)
 			{
-				Console.WriteLine(e);
-				throw;
+				return new List<string>();
 			}
 		}
 

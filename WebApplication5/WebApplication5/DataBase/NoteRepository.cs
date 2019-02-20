@@ -17,10 +17,9 @@ namespace WebApplication5.Database
 			_context = new DataBase();
 		}
 
-		public void AddNote(string header, string body, string fileLink, string userId)
+		public void AddNote(string header, string body, string fileLink, string userLogin)
 		{
-			// TODO
-			_context.Notes.Add(new Note(header, body, fileLink, Guid.NewGuid()));
+			_context.Notes.Add(new Note(header, body, fileLink, userLogin));
 			_context.SaveChanges();
 		}
 
@@ -28,9 +27,9 @@ namespace WebApplication5.Database
 
 		public Note GetNoteByHeader(string header) => _context.Notes.First(n => n.Header.Equals(header));
 
-		public List<string> GetHeaders(string userId) =>
-			_context.Notes //TODO
-				//.Where(n => n.UserId == userId) 
+		public List<string> GetHeaders(string login) =>
+			_context.Notes 
+				.Where(n => n.UserLogin.Equals(login)) 
 				.Select(n => n.Header)
 				.ToList();
 
