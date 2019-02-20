@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using System.IO;
+using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
@@ -18,11 +20,11 @@ namespace WebApplication5
 				return streamWriter.WriteAsync(page);
 		}
 
-		internal static string GetFiles()
+		internal static string GetFiles(HttpContext context)
 		{
 			using (var controller = new NotesController())
 			{
-				var files = controller.Get();
+				var files = controller.Get(context);
 
 				var sb = new StringBuilder();
 				sb.Append(@"<ul style=""padding-left: 50px; padding-top: 15px;"">");

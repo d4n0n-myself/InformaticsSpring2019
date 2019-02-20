@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.IO;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WebApplication5.Database;
 using WebApplication5.Database.Entites;
@@ -10,15 +12,25 @@ namespace WebApplication5.Controllers
 	/// <summary>
 	///	This class collects information about notes.
 	/// </summary>
-	public class NotesController : Controller
+	public class NotesController : IDisposable
 	{
-		public void Add()
+		public void Add(HttpContext context)
 		{
-			var form = Request.Form;
+			var form = context.Request.Form;
 			var text = form["text"];
 			var title = form["title"];
 			var file = form.Files["file"];
-			var userId = Guid.Parse(Request.Cookies["userId"]);
+			string userId;
+			try
+			{
+				userId = context.Request.Cookies["userId"];
+			}
+			catch (Exception e)
+			{
+				context.Response.Redirect("/Home/Authentificate");
+				return;
+			}
+			
 
 			if (file != null)
 			{
@@ -34,16 +46,30 @@ namespace WebApplication5.Controllers
 		}
 
 		[ResponseCache(Duration = 30)]
-		public List<string> Get()
+		public List<string> Get(HttpContext context)
 		{
+			//TODO
+//			Guid userId;
+//			try
+//			{
+//				userId = Guid.Parse(context.Request.Cookies["userId"]);
+//				
+//			}
+//			catch 
+//			{
+//				//context.Response.Redirect("/Home/Authentificate");
+//				return new List<string>();
+//			}
+
 			try
 			{
-				var userId = Guid.Parse(Request.Cookies["userId"]);
-				return Repo.GetHeaders(userId);
+				//TODO
+				return Repo.GetHeaders(null);
 			}
-			catch 
+			catch (Exception e)
 			{
-				return new List<string>();
+				Console.WriteLine(e);
+				throw;
 			}
 		}
 
@@ -52,5 +78,9 @@ namespace WebApplication5.Controllers
 		public Note Get(string header) => Repo.GetNoteByHeader(header);
 
 		private static readonly NoteRepository Repo = new NoteRepository();
+		public void Dispose()
+		{
+			GC.SuppressFinalize(this);
+		}
 	}
 }

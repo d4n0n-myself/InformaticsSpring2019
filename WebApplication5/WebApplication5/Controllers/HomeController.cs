@@ -1,5 +1,7 @@
 using System;
 using System.IO;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebApplication5.Controllers
@@ -13,8 +15,7 @@ namespace WebApplication5.Controllers
 		public void Add()
 		{
 			using(var notesController = new NotesController())
-				notesController.Add();
-
+				notesController.Add(Request.HttpContext);
 			Helpers.LoadPageInResponse(HttpContext, "confirmation");
 		}
 
@@ -25,6 +26,7 @@ namespace WebApplication5.Controllers
 
 		public void Check()
 		{
+			// TODO
 			var controller = new UsersController();
 			var form = Request.Form;
 			var login = form["login"];
@@ -35,7 +37,9 @@ namespace WebApplication5.Controllers
 				Response.Cookies.Append("login", "ok");
 				Response.Cookies.Append("userId", login);
 			}
-			else if (controller.Contains(login) && controller.Check(login, password))//(login == "admin" && password == "admin")
+			else if 
+				//(controller.Contains(login) && controller.Check(login, password))
+				(login == "admin" && password == "admin")
 			{
 				Response.Cookies.Append("login", "ok");
 				Response.Cookies.Append("userId", login);
@@ -47,7 +51,7 @@ namespace WebApplication5.Controllers
 		public void Index()
 		{
 			var htmlPage = System.IO.File.ReadAllText("Views/Home.html");
-			htmlPage = htmlPage.Replace("@List", Helpers.GetFiles());
+			htmlPage = htmlPage.Replace("@List", Helpers.GetFiles(Request.HttpContext));
 			using (var streamWriter = new StreamWriter(Response.Body))
 				streamWriter.WriteAsync(htmlPage);
 		}
