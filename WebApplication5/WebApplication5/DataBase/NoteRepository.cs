@@ -27,9 +27,8 @@ namespace WebApplication5.Database
 
 		public Note GetNoteByHeader(string header) => _context.Notes.First(n => n.Header.Equals(header));
 
-		public List<string> GetHeaders(string login) =>
-			_context.Notes 
-				.Where(n => n.UserLogin.Equals(login)) 
+		public List<string> GetHeaders(string login) => _context.Notes
+				.Where(n => n.UserLogin.Equals(login))
 				.Select(n => n.Header)
 				.ToList();
 

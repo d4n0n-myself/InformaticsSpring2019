@@ -50,7 +50,7 @@ namespace WebApplication5.Controllers
 		{
 			try
 			{
-				var login = context.Request.Cookies["login"];
+				var login = context.Request.Cookies["userId"];
 				return Repo.GetHeaders(login);
 			}
 			catch (Exception e)
