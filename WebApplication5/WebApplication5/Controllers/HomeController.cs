@@ -1,7 +1,4 @@
-using System;
 using System.IO;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebApplication5.Controllers
@@ -9,9 +6,10 @@ namespace WebApplication5.Controllers
     /// <summary>
     ///	This controller provides HTML views.
     /// </summary>
-    [ResponseCache(Duration = 60)]
+    [Route("[controller]/[action]")]
     public class HomeController : Controller
     {
+        [HttpGet]
         public void Add()
         {
             using (var notesController = new NotesController())
@@ -19,11 +17,13 @@ namespace WebApplication5.Controllers
             Helpers.LoadPageInResponse(HttpContext, "confirmation");
         }
 
+        [HttpGet]
         public void Authentificate()
         {
             Helpers.LoadPageInResponse(HttpContext, "authPage");
         }
 
+        [HttpGet]
         public void Check()
         {
             var controller = new UsersController();
@@ -43,9 +43,12 @@ namespace WebApplication5.Controllers
                 Response.Cookies.Append("userId", login);
                 Response.Redirect("/Home");
             }
-
         }
 
+        /// <summary>
+        /// Writes to response the main page of the site.
+        /// </summary>
+        [HttpGet]
         public void Index()
         {
             var htmlPage = System.IO.File.ReadAllText("Views/Home.html");
@@ -54,6 +57,7 @@ namespace WebApplication5.Controllers
                 streamWriter.WriteAsync(htmlPage);
         }
 
+        [HttpGet]
         public void Notes()
         {
             Helpers.LoadPageInResponse(HttpContext, "notes");

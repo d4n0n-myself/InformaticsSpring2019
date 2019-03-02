@@ -30,7 +30,7 @@ namespace WebApplication5.Controllers
 				context.Response.Redirect("/Home/Authentificate");
 				return;
 			}
-			
+
 
 			if (file != null)
 			{
@@ -39,10 +39,10 @@ namespace WebApplication5.Controllers
 				using (var fileStream = new FileStream(filePath, FileMode.Create))
 					file.CopyTo(fileStream);
 
-					Repo.AddNote(title, text, filePath, userId);
+				Repo.AddNote(title, text, filePath, userId);
 			}
 			else
-				Repo.AddNote(title, text, null, userId);		
+				Repo.AddNote(title, text, null, userId);
 		}
 
 		[ResponseCache(Duration = 30)]
@@ -64,6 +64,7 @@ namespace WebApplication5.Controllers
 		public Note Get(string header) => Repo.GetNoteByHeader(header);
 
 		private static readonly NoteRepository Repo = new NoteRepository();
+
 		public void Dispose()
 		{
 			GC.SuppressFinalize(this);
