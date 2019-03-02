@@ -3,9 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace SwaggerExample.Controllers
 {
-	/// <summary>
-	/// This is just a controller.
-	/// </summary>
+	/// <inheritdoc />
 	[Route("[controller]/[action]")]
 	public class HomeController : Controller
 	{
@@ -16,6 +14,16 @@ namespace SwaggerExample.Controllers
 		public void Method()
 		{
 			Console.Write("I am a method!");
+		}
+
+		/// <summary>
+		/// Im a method with parameter!
+		/// </summary>
+		/// <param name="id">ID Parameter</param>
+		[HttpGet]
+		public void MethodWtihParameter(int id)
+		{
+			Console.Write("I have a parameter!");
 		}
 	}
 }

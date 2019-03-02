@@ -1,3 +1,6 @@
+using System;
+using System.IO;
+using System.Reflection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -24,12 +27,12 @@ namespace SwaggerExample
 
 			// In production, the React files will be served from this directory
 			services.AddSpaStaticFiles(configuration => { configuration.RootPath = "ClientApp/build"; });
-			
+
 			services.AddSwaggerGen(options =>
 			{
 				options.SwaggerDoc("1.0.0", new OpenApiInfo()
 				{
-					Title = "d4n0n's API", 
+					Title = "d4n0n's API",
 					Version = "1.0.0",
 					Contact = new OpenApiContact()
 					{
@@ -38,6 +41,9 @@ namespace SwaggerExample
 					},
 					Description = "Informatics Spring 2019 project. Uses ASP.NET Core MVC pattern."
 				});
+				var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+				var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+				options.IncludeXmlComments(xmlPath);
 			});
 		}
 
@@ -64,7 +70,7 @@ namespace SwaggerExample
 			{
 				options.SwaggerEndpoint("/swagger/1.0.0/swagger.json", "d4n0n's API 1.0.0");
 			});
-			
+
 			app.UseMvc(routes =>
 			{
 				routes.MapRoute(

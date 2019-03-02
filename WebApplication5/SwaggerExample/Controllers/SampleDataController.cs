@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace SwaggerExample.Controllers
 {
+	/// <summary>
+	/// Is this a controller ?
+	/// </summary>
 	[Route("[controller]/[action]")]
 	public class SampleDataController : Controller
 	{
@@ -15,6 +18,10 @@ namespace SwaggerExample.Controllers
 		};
 
 
+		/// <summary>
+		/// Is this loss ?
+		/// </summary>
+		/// <returns></returns>
 		[HttpGet]
 		public IEnumerable<WeatherForecast> WeatherForecasts()
 		{
@@ -27,6 +34,9 @@ namespace SwaggerExample.Controllers
 			});
 		}
 
+		/// <summary>
+		/// Hello, i am still here!
+		/// </summary>
 		[HttpPost]
 		public void OmgItsASwagger()
 		{
