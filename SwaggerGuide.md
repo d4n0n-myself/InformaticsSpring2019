@@ -7,8 +7,7 @@
 В этом вам может помочь Swagger.
  
  Я буду обьяснять все на конкретном примере. 
- Для этого я создам ASP.NET Core 2.2 Web Application с шаблоном React.js в этом репозитории [SwaggerExample]
- (https://github.com/d4n0n-myself/InformaticsSpring2019/tree/SwaggerExample/WebApplication5/SwaggerExample).
+ Для этого я создам ASP.NET Core 2.2 Web Application с шаблоном React.js в этом репозитории [SwaggerExample](https://github.com/d4n0n-myself/InformaticsSpring2019/tree/SwaggerExample/WebApplication5/SwaggerExample).
  
  Буду прикреплять коммиты по ходу статьи.
  
