@@ -4,7 +4,7 @@
 Заказчик потребовал несколько способов взаимодействия с приложением : мобильное приложение, веб-интерфейс или что-то другое.
 Вы back-end разработчик и создали WebAPI для интегрирования front-end разработки в ваше приложение. 
 Однако, чтобы не обьяснять каждой команде разработки (веб, mobile, etc.) отдельно как работает ваш API, вам необходимо создать документацию к нему. 
-В этом вам может помочь Swagger.
+В этом вам может помочь **Swagger**. Он описывает методы вашего WebApi, а также модели которые он использует. 
  
  Я буду обьяснять все на конкретном примере. 
  Для этого я создам ASP.NET Core 2.2 Web Application с шаблоном React.js в этом репозитории [SwaggerExample](https://github.com/d4n0n-myself/InformaticsSpring2019/tree/SwaggerExample/WebApplication5/SwaggerExample).
@@ -15,7 +15,7 @@
  Все изменения этого шага приведены здесь : [Swagger Initial Setup](https://github.com/d4n0n-myself/InformaticsSpring2019/commit/fe35d5c53c19ad0c1b3e0e91d68dd2811a344ff5)
  
 В плане установки всё довольно просто:
- * загрузить nuGet пакет Swashbuckle.AspNetCore в проект вашего WebAPI. 
+ * загрузить nuGet пакет `Swashbuckle.AspNetCore` в проект вашего WebAPI. 
  * настроить Swagger для вашего приложения.
  
  Настроить Swagger стоит следующим образом: в классе `Startup.cs` дополнить метод `ConfigureServices` вызовом метода: `services.AddSwaggerGen(options => *implementation*)`.
@@ -37,7 +37,7 @@
 
 Все изменения приведены здесь: [Controllers and methods](https://github.com/d4n0n-myself/InformaticsSpring2019/commit/0f0126cc7c17badfb1234818928e4dc83babe479)
 
-Чтобы беспрепятсвенно видеть все ваши контроллеры и методы в них, эти элементы должны быть уникально описаны. 
+Чтобы беспрепятсвенно видеть все ваши контроллеры и методы в них, эти элементы должны быть **уникально описаны**. 
 
 Для этого контроллеры описываются атрибутом `[Route]` из библиотеки `Microsoft.AspNetCore.Mvc`, а методы - атрибутами HTTP методов, таких как `[HttpGet]`. Swagger так же считает методы неуникальными, если описать методы атрибутами HTTP методов без параметра имени. Чтобы не замарачиваться с каждым названием метода для Swagger, можно использовать названия из C#, прикрепив их с помощью шаблона в атрибуте `Route` контроллера, как указано в моем примере. 
 
@@ -56,3 +56,19 @@
 *Примечание*: добавленная строчка в файл проекта укажет вам на публичные блоки кода, которые еще не были задокументированы, при сборке проекта. 
 
 Должно получиться примерно следующее - [Image on Drive](https://drive.google.com/file/d/1y44x-gGP5bhEmX7fIxNKBgeIWUWzsZyH)
+
+# Conclusion
+
+Таким образом, используя Swagger и час свободного времени, можно легко описать ваш готовый(!) WebAPI. 
+
+### Источники вдохновения:
+1. [Презентация с доклада на .NET Day](https://docs.google.com/presentation/d/1DpDwzdxFyFzOeopideqZqeLQ-cX5lTxDjPFXnxJiQy4/edit#slide=id.g50a090c05d_1_0)
+2. [Репозиторий этого доклада](https://github.com/Krakaz/SwaggerExample)
+3. [Обзор Swagger на docs.microsoft.com](https://docs.microsoft.com/en-us/aspnet/core/tutorials/web-api-help-pages-using-swagger?view=aspnetcore-2.2)
+4. [Настройка Swagger по docs.microsoft.com](https://docs.microsoft.com/en-us/aspnet/core/tutorials/getting-started-with-swashbuckle?view=aspnetcore-2.2&tabs=visual-studio)
+
+# Optional : Customizaion
+
+Кастомизацию можно добавить, внедрив в папку проекта wwwroot новую папку под именем swagger, и посместив в нее html, css + js.
+
+Пример (просто чтобы был, никаких целей здесь не преследую) :  [Customization](https://github.com/d4n0n-myself/InformaticsSpring2019/commit/68b3e44dde97499f1bc7e4b36fa4c75382afabd7)
