@@ -1,10 +1,10 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.OpenApi.Models;
 
 namespace SwaggerExample
 {
@@ -24,6 +24,21 @@ namespace SwaggerExample
 
 			// In production, the React files will be served from this directory
 			services.AddSpaStaticFiles(configuration => { configuration.RootPath = "ClientApp/build"; });
+			
+			services.AddSwaggerGen(options =>
+			{
+				options.SwaggerDoc("1.0.0", new OpenApiInfo()
+				{
+					Title = "d4n0n's API", 
+					Version = "1.0.0",
+					Contact = new OpenApiContact()
+					{
+						Email = "danon.sibaev@yandex.ru",
+						Name = "d4n0n_myself"
+					},
+					Description = "Informatics Spring 2019 project. Uses ASP.NET Core MVC pattern."
+				});
+			});
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -44,6 +59,12 @@ namespace SwaggerExample
 			app.UseStaticFiles();
 			app.UseSpaStaticFiles();
 
+			app.UseSwagger();
+			app.UseSwaggerUI(options =>
+			{
+				options.SwaggerEndpoint("/swagger/1.0.0/swagger.json", "d4n0n's API 1.0.0");
+			});
+			
 			app.UseMvc(routes =>
 			{
 				routes.MapRoute(
