@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace SwaggerExample.Controllers
 {
-	// чтобы не замарачиваться с названиями для Swagger, можно использовать названия из C#, прикрепив их с помощью шаблона
 	[Route("[controller]/[action]")]
 	public class SampleDataController : Controller
 	{
@@ -15,10 +14,8 @@ namespace SwaggerExample.Controllers
 			"Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
 		};
 
-		
+
 		[HttpGet]
-		// или можно описать каждый метод с помощью шаблона : 
-		// [HttpGet("[action]")]
 		public IEnumerable<WeatherForecast> WeatherForecasts()
 		{
 			var rng = new Random();
@@ -30,13 +27,12 @@ namespace SwaggerExample.Controllers
 			});
 		}
 
-		// или даже описать что-то более конкретное : 
-		[HttpPost("myGet/[action]")]
+		[HttpPost]
 		public void OmgItsASwagger()
 		{
 			Console.Write("Hello its me!");
 		}
-		
+
 		public class WeatherForecast
 		{
 			public string DateFormatted { get; set; }
