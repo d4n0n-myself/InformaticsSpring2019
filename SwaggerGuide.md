@@ -41,7 +41,8 @@ app.UseSwaggerUI(options => *impl*)
 В последнем методе в лямбду следует добавить вызов метода SwaggerEndpoint, в который передать url, и название конфигурации. 
 
 Теперь Swagger доступен по ссылке : http://localhost:5000/swagger (если вы запускаете проект на localhost:5000).
-Выглядит это примерно вот так - [Image on Drive](https://drive.google.com/file/d/1_5r0ZdV4sAwMYiXuzPSfiyPTeD-WKxVU/)
+Выглядит это примерно вот так - 
+![Image1 on Drive](https://github.com/d4n0n-myself/InformaticsSpring2019/blob/SwaggerArticle/scrshts/1.png)
 
 
 # Controllers and methods 
@@ -66,7 +67,8 @@ app.UseSwaggerUI(options => *impl*)
 
 *Примечание*: добавленная строчка в файл проекта укажет вам на публичные блоки кода, которые еще не были задокументированы, при сборке проекта. 
 
-Должно получиться примерно следующее - [Image on Drive](https://drive.google.com/file/d/1y44x-gGP5bhEmX7fIxNKBgeIWUWzsZyH)
+Должно получиться примерно следующее - 
+![Image on Drive](https://github.com/d4n0n-myself/InformaticsSpring2019/blob/SwaggerArticle/scrshts/2.png)
 
 # Conclusion
 
