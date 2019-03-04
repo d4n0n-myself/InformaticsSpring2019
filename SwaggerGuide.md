@@ -20,10 +20,22 @@
  
  Настроить Swagger стоит следующим образом: в классе `Startup.cs` дополнить метод `ConfigureServices` вызовом метода: 
  ```cs 
- services.AddSwaggerGen(options => *implementation*)
+services.AddSwaggerGen(options =>
+{
+    options.SwaggerDoc("1.0.0", new OpenApiInfo()
+    {
+        Title = "d4n0n's API", 
+        Version = "1.0.0",
+        Contact = new OpenApiContact()
+        {
+            Email = "danon.sibaev@yandex.ru",
+            Name = "d4n0n_myself"
+        },
+        Description = "Informatics Spring 2019 project. Uses ASP.NET Core MVC pattern."
+    });
+});
  ```
-В качестве `*implementation*` я имею в виду вызовы методов для Swagger, которые позволяют дополнять его информацией, 
-например: общей информацией, информацией о XML-файле с документацией и пр. Но обо всем по порядку. 
+Наполнение лямбды может дополняться, если потребуется: вызовами методов с информацией о XML-файле с документацией и пр. Но обо всем по порядку. 
 
 Для начала начнем с вызова метода, который хранит минимально необходимую информацию для Swagger : 
 `options.SwaggerDoc`. Он принимает в себя два параметра: `name` и экземпляр `OpenApiInfo`, в котором следует указать св-во `Title` и `Version`. 
@@ -35,10 +47,13 @@ app.UseSwagger()
 ``` 
 и 
 ```cs
-app.UseSwaggerUI(options => *impl*)
+app.UseSwaggerUI(options =>
+{
+    options.SwaggerEndpoint("/swagger/1.0.0/swagger.json", "d4n0n's API 1.0.0");
+});
 ``` 
 в методе `Startup.Configure`. 
-В последнем методе в лямбду следует добавить вызов метода SwaggerEndpoint, в который передать url, и название конфигурации. 
+В последнем методе в лямбду добавляем вызов метода SwaggerEndpoint, в который передаем URL, где будет хранится текущая конфигурация Swagger, и название конфигурации. 
 
 Теперь Swagger доступен по ссылке : http://localhost:5000/swagger (если вы запускаете проект на localhost:5000).
 Выглядит это примерно вот так - 
