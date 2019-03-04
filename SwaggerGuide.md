@@ -18,15 +18,26 @@
  * загрузить nuGet пакет `Swashbuckle.AspNetCore` в проект вашего WebAPI. 
  * настроить Swagger для вашего приложения.
  
- Настроить Swagger стоит следующим образом: в классе `Startup.cs` дополнить метод `ConfigureServices` вызовом метода: `services.AddSwaggerGen(options => *implementation*)`.
-В качестве *implementation* я имею в виду вызовы методов для Swagger, которые позволяют дополнять его информацией, 
+ Настроить Swagger стоит следующим образом: в классе `Startup.cs` дополнить метод `ConfigureServices` вызовом метода: 
+ ```cs 
+ services.AddSwaggerGen(options => *implementation*)
+ ```
+В качестве `*implementation*` я имею в виду вызовы методов для Swagger, которые позволяют дополнять его информацией, 
 например: общей информацией, информацией о XML-файле с документацией и пр. Но обо всем по порядку. 
 
 Для начала начнем с вызова метода, который хранит минимально необходимую информацию для Swagger : 
 `options.SwaggerDoc`. Он принимает в себя два параметра: `name` и экземпляр `OpenApiInfo`, в котором следует указать св-во `Title` и `Version`. 
 Конструктора у этого класса нет, поэтому все задается через фигурные скобки.
 
-После этого, необходимо вызвать методы `app.UseSwagger()` и `app.UseSwaggerUI(options => *impl*)` в методе `Startup.Configure`. 
+После этого, необходимо вызвать методы 
+```cs
+app.UseSwagger()
+``` 
+и 
+```cs
+app.UseSwaggerUI(options => *impl*)
+``` 
+в методе `Startup.Configure`. 
 В последнем методе в лямбду следует добавить вызов метода SwaggerEndpoint, в который передать url, и название конфигурации. 
 
 Теперь Swagger доступен по ссылке : http://localhost:5000/swagger (если вы запускаете проект на localhost:5000).
