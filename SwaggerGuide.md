@@ -60,7 +60,7 @@ app.UseSwaggerUI(options =>
 ![Image1 on Drive](https://github.com/d4n0n-myself/InformaticsSpring2019/blob/SwaggerArticle/scrshts/1.png)
 
 
-# Controllers and methods 
+# Methods 
 
 Все изменения приведены здесь: [Controllers and methods](https://github.com/d4n0n-myself/InformaticsSpring2019/commit/0f0126cc7c17badfb1234818928e4dc83babe479)
 
